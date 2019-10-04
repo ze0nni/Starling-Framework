@@ -76,7 +76,7 @@ package starling.animation
 
         private function addWithID(object:IAnimatable, objectID:uint):uint
         {
-            if (object && !(object in _objectIDs))
+            if (object && undefined === _objectIDs[object])
             {
                 var dispatcher:EventDispatcher = object as EventDispatcher;
                 if (dispatcher) dispatcher.addEventListener(Event.REMOVE_FROM_JUGGLER, onRemove);
@@ -92,10 +92,9 @@ package starling.animation
         /** Determines if an object has been added to the juggler. */
         public function contains(object:IAnimatable):Boolean
         {
-            return object in _objectIDs;
+            return undefined !== _objectIDs[object];
         }
-        
-        /** Removes an object from the juggler.
+                /** Removes an object from the juggler.
          *
          *  @return The (now meaningless) unique numeric identifier for the animation, or zero
          *          if the object was not found.
@@ -104,7 +103,7 @@ package starling.animation
         {
             var objectID:uint = 0;
 
-            if (object && object in _objectIDs)
+            if (object && undefined !== _objectIDs[object])
             {
                 var dispatcher:EventDispatcher = object as EventDispatcher;
                 if (dispatcher) dispatcher.removeEventListener(Event.REMOVE_FROM_JUGGLER, onRemove);
